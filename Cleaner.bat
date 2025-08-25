@@ -101,8 +101,11 @@ choice /m "Would you like to aggressively clean Fortnite"
 if errorlevel 2 (
     echo Skipping Fortnite cleaning.
 ) else (
-    echo Cleaning Fortnite...
+    echo Closing Epic Games Launcher to prevent crashes...
+    taskkill /f /im EpicGamesLauncher.exe >nul 2>&1
+    timeout /t 3 >nul
 
+    echo Cleaning Fortnite files and registry...
     rmdir /s /q "%localappdata%\FortniteGame\Saved\Logs" >nul 2>&1
     rmdir /s /q "%localappdata%\FortniteGame\Saved\Config" >nul 2>&1
     rmdir /s /q "%localappdata%\FortniteGame\Saved\Crashes" >nul 2>&1
@@ -117,12 +120,11 @@ if errorlevel 2 (
     echo Fortnite aggressively cleaned.
 )
 
-echo Stopping Epic Games, Fortnite, and OneDrive processes...
-taskkill /f /im EpicGamesLauncher.exe >nul 2>&1
+echo Stopping Fortnite and OneDrive processes...
 taskkill /f /im FortniteClient-Win64-Shipping.exe >nul 2>&1
 taskkill /f /im OneDrive.exe >nul 2>&1
 
-echo Deleting registry keys related to EasyAntiCheat...
+echo Deleting EasyAntiCheat registry keys...
 reg delete "HKLM\SOFTWARE\WOW6432Node\EasyAntiCheat" /f >nul 2>&1
 reg delete "HKLM\SYSTEM\ControlSet001\Services\EasyAntiCheat" /f >nul 2>&1
 reg delete "HKLM\SYSTEM\ControlSet001\Services\BEService" /f >nul 2>&1
