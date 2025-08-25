@@ -11,7 +11,7 @@ set i=0
 set "char=!line:~%i%,1!"
 if defined char (
     <nul set /p= !char!
-    timeout /t 0.05 >nul
+    ping -n 1 -w 50 localhost >nul
     set /a i+=1
     goto loop
 ) else (
